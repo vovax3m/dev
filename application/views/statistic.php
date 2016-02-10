@@ -69,13 +69,13 @@
 			</tr-->
 			<tr class="cdr">
 				<td class="stat_item" align="left">Продолжительность</td>
-				<td class="stat_item"><?php echo $h=floor($count_talktime_all/3600); echo  ":".$m=floor(($count_talktime_all-3600*$h)/60);echo ":".$s=($count_talktime_all-(3600*$h+$m*60));?></td>
-				<td class="stat_item  arrow_left"><?php echo $h=floor($count_talktime_out/3600); echo  ":".$m=floor(($count_talktime_out-3600*$h)/60);echo ":".$s=($count_talktime_out-(3600*$h+$m*60));?></td>
-				<td class="stat_item  arrow_right"><?php echo $h=floor($count_talktime_inc/3600); echo  ":".$m=floor(($count_talktime_inc-3600*$h)/60);echo ":".$s=($count_talktime_inc-(3600*$h+$m*60));?></td>
+				<td class="stat_item"><?php if ($dur_in_sec) {  echo $this->funcs->sec2hms($count_talktime_all) ; } else { echo  $this->funcs->min2hms($count_talktime_all) ;}; /// echo $h=floor($count_talktime_all/60); echo  ":".$m=floor($count_talktime_all);?></td>
+				<td class="stat_item  arrow_left"><?php if ($dur_in_sec) {  echo $this->funcs->sec2hms($count_talktime_out) ; } else { echo  $this->funcs->min2hms($count_talktime_out) ;} //echo $h=floor($count_talktime_out/3600); echo  ":".$m=floor(($count_talktime_out-3600*$h)/60);echo ":".$s=($count_talktime_out-(3600*$h+$m*60));?></td>
+				<td class="stat_item  arrow_right"><?php if ($dur_in_sec) {  echo $this->funcs->sec2hms($count_talktime_inc) ; } else { echo  $this->funcs->min2hms($count_talktime_inc) ;}// echo $h=floor($count_talktime_inc/3600); echo  ":".$m=floor(($count_talktime_inc-3600*$h)/60);echo ":".$s=($count_talktime_inc-(3600*$h+$m*60));?></td>
 			</tr>
 			<tr class="cdr">
 				<td class="stat_item" align="left">Средняя продолжительность</td>
-				<td class="stat_item"> <?php echo date("H:i:s", $count_talktime_all/$count_talk);//$count_talktime_all; $count_talk;?></td>
+				<td class="stat_item"><?php if ($dur_in_sec) {  echo $this->funcs->sec2hms($count_talktime_all/$count_talk) ; } else { echo  $this->funcs->min2hms($count_talktime_all/$count_talk) ;}; // echo date("H:i:s", $count_talktime_all/$count_talk);//$count_talktime_all; $count_talk;?></td>
 				<td class="stat_item  arrow_left"></td>
 				<td class="stat_item  arrow_right"></td>
 			</tr>
@@ -99,7 +99,7 @@
 				 <tr class="cdr" >
 				 <td class="stat_item"><?php echo $i;?></td>
 				 <td class="stat_item callable" onclick="set_filter('<?php echo $ext['no'];?>');"><div class="leftpart"><?php echo $ext['no'];?></div>  <div class="green rightpart"><?php echo $ext['name']; ?></div></td>
-				 <td class="stat_item"><?php echo $h=floor($ext['dur']/3600); echo  ":".$m=floor(($ext['dur']-3600*$h)/60);echo ":".$s=($ext['dur']-(3600*$h+$m*60));$i++;?></td>
+				 <td class="stat_item"><?php if ($dur_in_sec) {  echo $this->funcs->sec2hms($ext['dur']) ; } else { echo  $this->funcs->min2hms($ext['dur']) ;}/// echo $h=floor($ext['dur']/3600); echo  ":".$m=floor(($ext['dur']-3600*$h)/60);echo ":".$s=($ext['dur']-(3600*$h+$m*60));$i++;?></td>
 				 </tr>
 			  <?php endforeach;?>
 				</tr>
@@ -127,7 +127,7 @@
 			 <td class="stat_item"><?php echo $i;?></td>
 			 <td class="stat_item"><?php echo $key;?></td>
 			 <td class="stat_item"><?php echo $val['count'];?></td>
-			 <td class="stat_item"><?php echo $h=floor($val['dur']/3600); echo  ":".$m=floor(($val['dur']-3600*$h)/60);echo ":".$s=($val['dur']-(3600*$h+$m*60));$i++;?></td>
+			 <td class="stat_item"><?php if ($dur_in_sec) {  echo $this->funcs->sec2hms($val['dur']) ; } else { echo  $this->funcs->min2hms($val['dur']) ;}// echo $h=floor($val['dur']/3600); echo  ":".$m=floor(($val['dur']-3600*$h)/60);echo ":".$s=($val['dur']-(3600*$h+$m*60));$i++;?></td>
 			 </tr>
 		  <?php endforeach;?>
 			</tr>

@@ -92,8 +92,23 @@ class Funcs {
 				break;
 			}
 		}
-		function sec2hms($param){
+		function sec2hms($sec){
+			 $h=floor($sec/3600);
+			 $m=floor(($sec-3600*$h)/60);
+			 $s=floor($sec-(3600*$h+$m*60));
+			 if($h<10) $h='0'.$h;
+			 if($m<10) $m='0'.$m;
+			 if($s<10) $s='0'.$s;
+			 return $h.':'.$m.':'.$s;
+		}
 		
+		function min2hms($min){
+			 $h=floor($min/60);
+			 $m=floor($min-60*$h);
+			 $s='00';
+			 if($h<10) $h='0'.$h;
+			 if($m<10) $m='0'.$m;
+			 return $h.':'.$m.':'.$s;
 		}
 		/*
 		получаем остаток кредитного лимита

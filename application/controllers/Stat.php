@@ -23,6 +23,9 @@ class Stat extends CI_Controller {
 			// внутренний номер пользователя
 			 $exten=$this->input->cookie('auth_exten', TRUE);
 			 
+			 //режим отображение продолжительности разговора в минутах или секундах
+			$data['dur_in_sec']=$dur_in_sec = $this->config->item('statistic_duration_mode');		
+			 
 			 $filter=json_decode($this->input->cookie('fltr', TRUE));
 			 // проверяем наличие  параметров фильтров
 			foreach($filter as $k=>$v){
@@ -50,7 +53,7 @@ class Stat extends CI_Controller {
 			
 		//-----
 		$vats = $this->config->item('vats');
-		echo $filter;
+		//echo $filter;
 		$f=file_get_contents('https://'.$vats.'/cabinet/cdr.php?stat=true&'.$filter);
 		$data['row']=$rawdata=json_decode($f,true);
 		// ----
@@ -75,7 +78,6 @@ class Stat extends CI_Controller {
 		$data['count_talktime_inc']=0; //вход  длительность
 		$data['count_talktime_out']=0; //исход длительность
 		//$data['acc']=array(); // Входящие номера DID
-				
 		
 		//перебор данных, начисление счетчиков
 		if($rawdata['total']){
@@ -102,7 +104,11 @@ class Stat extends CI_Controller {
 						$data['count_out']++;
 						if($s['disposition']=='ANSWERED'){  
 							$data['count_ans_out']++;
-							$data['count_talktime_out']+=$s['billsec'];
+							if($dur_in_sec){
+								$data['count_talktime_out']+=$s['billsec'];
+							}else{
+								$data['count_talktime_out']+=$this->funcs->dur2min($s['billsec']);
+							}
 						}elseif($s['disposition']=='NO ANSWER'){
 							$data['count_noans_out']++; 
 						}elseif($s['disposition']=='BUSY'){
@@ -118,14 +124,22 @@ class Stat extends CI_Controller {
 						// количество звонков по did
 						if($s['account']){
 							$data['acc'][$s['account']]['count']++;
-							$data['acc'][$s['account']]['dur']+=$s['billsec'];
+							if($dur_in_sec){
+								$data['acc'][$s['account']]['dur']+=$s['billsec'];
+							}else{
+								$data['acc'][$s['account']]['dur']+=$this->funcs->dur2min($s['billsec']);
+							}
 						};
 						
 						
 						// разбор по статусу
 						if($s['disposition']=='ANSWERED'){  
 							$data['count_ans_inc']++;
-							$data['count_talktime_inc']+=$s['billsec'];
+							if($dur_in_sec){
+								$data['count_talktime_inc']+=$s['billsec'];
+							}else{
+								$data['count_talktime_inc']+=$this->funcs->dur2min($s['billsec']);
+							}
 						}elseif($s['disposition']=='NO ANSWER'){
 							$data['count_noans_inc']++; 
 						}elseif($s['disposition']=='BUSY'){
@@ -142,14 +156,22 @@ class Stat extends CI_Controller {
 						// количество звонков по did
 						if($s['account']){
 							$data['acc'][$s['account']]['count']++;
-							$data['acc'][$s['account']]['dur']+=$s['billsec'];
+							if($dur_in_sec){
+								$data['acc'][$s['account']]['dur']+=$s['billsec'];
+							}else{
+								$data['acc'][$s['account']]['dur']+=$this->funcs->dur2min($s['billsec']);
+							}
 						};
 						
 						
 						// разбор по статусу
 						if($s['disposition']=='ANSWERED'){  
 							$data['count_ans_inc']++;
-							$data['count_talktime_inc']+=$s['billsec'];
+							if($dur_in_sec){
+								$data['count_talktime_inc']+=$s['billsec'];
+							}else{
+								$data['count_talktime_inc']+=$this->funcs->dur2min($s['billsec']);
+							}
 						}elseif($s['disposition']=='NO ANSWER'){
 							$data['count_noans_inc']++; 
 						}elseif($s['disposition']=='BUSY'){
@@ -169,7 +191,11 @@ class Stat extends CI_Controller {
 						$data['count_out']++;
 						if($s['disposition']=='ANSWERED'){  
 							$data['count_ans_out']++;
-							$data['count_talktime_out']+=$s['billsec'];
+							if($dur_in_sec){
+								$data['count_talktime_out']+=$s['billsec'];
+							}else{
+								$data['count_talktime_out']+=$this->funcs->dur2min($s['billsec']);
+							}
 						}elseif($s['disposition']=='NO ANSWER'){
 							$data['count_noans_out']++; 
 						}elseif($s['disposition']=='BUSY'){
@@ -186,14 +212,22 @@ class Stat extends CI_Controller {
 						// количество звонков по did
 						if($s['account']){
 							$data['acc'][$s['account']]['count']++;
-							$data['acc'][$s['account']]['dur']+=$s['billsec'];
+							if($dur_in_sec){
+								$data['acc'][$s['account']]['dur']+=$s['billsec'];
+							}else{
+								$data['acc'][$s['account']]['dur']+=$this->funcs->dur2min($s['billsec']);
+							}
 						};
 						
 						
 						// разбор по статусу
 						if($s['disposition']=='ANSWERED'){  
 							$data['count_ans_inc']++;
-							$data['count_talktime_inc']+=$s['billsec'];
+							if($dur_in_sec){
+								$data['count_talktime_inc']+=$s['billsec'];
+							}else{
+								$data['count_talktime_inc']+=$this->funcs->dur2min($s['billsec']);
+							}
 						}elseif($s['disposition']=='NO ANSWER'){
 							$data['count_noans_inc']++; 
 						}elseif($s['disposition']=='BUSY'){
@@ -204,64 +238,26 @@ class Stat extends CI_Controller {
 					}
 				}
 				
-				/* old mode
-				if(is_numeric($num)){
-					//исходящий
-					$data['count_out']++;
-					if($s['disposition']=='ANSWERED'){  
-						$data['count_ans_out']++;
-						$data['count_talktime_out']+=$s['billsec'];
-					}elseif($s['disposition']=='NO ANSWER'){
-						$data['count_noans_out']++; 
-					}elseif($s['disposition']=='BUSY'){
-						$data['count_busy_out']++;
-					}elseif($s['disposition']=='FAILED'){
-						$data['count_fail_out']++;
-					}
-				}else{
-					//входящий
-					
-					// количество входящих
-					$data['count_inc']++;
-					// количество звонков по did
-					if($s['account']){
-						$data['acc'][$s['account']]['count']++;
-						$data['acc'][$s['account']]['dur']+=$s['billsec'];
-					};
-					
-					
-					// разбор по статусу
-					if($s['disposition']=='ANSWERED'){  
-						$data['count_ans_inc']++;
-						$data['count_talktime_inc']+=$s['billsec'];
-					}elseif($s['disposition']=='NO ANSWER'){
-						$data['count_noans_inc']++; 
-					}elseif($s['disposition']=='BUSY'){
-						$data['count_busy_inc']++;
-					}elseif($s['disposition']=='FAILED'){
-						$data['count_fail_inc']++;
-					}
-					
-					
-				}
-				*/
+				
 				if($s['disposition']=='NO ANSWER'){
 						$data['count_noans']++;
 				}elseif($s['disposition']=='ANSWERED'){  
 						$data['count_ans']++;
 						$data['count_talk']++;
-						$data['count_talktime_all']+=$s['billsec'];
-						$data['actext'][$num]+=$s['billsec'];
-						$data['actext'][$dnum]+=$s['billsec'];
+						if($dur_in_sec){
+							$data['count_talktime_all']+=$s['billsec'];
+							$data['actext'][$num]+=$s['billsec'];
+							$data['actext'][$dnum]+=$s['billsec'];
+						}else{
+							$data['count_talktime_all']+=$this->funcs->dur2min($s['billsec']);
+							$data['actext'][$num]+=$this->funcs->dur2min($s['billsec']);
+							$data['actext'][$dnum]+=$this->funcs->dur2min($s['billsec']);
+						}
 				}elseif($s['disposition']=='FAILED'){
 						$data['count_fail']++;
 				}elseif($s['disposition']=='BUSY'){
 						$data['count_busy']++;
-				}//elseif($s['disposition']=='UNKNOWN'){
-				 //		$data['count_unk']++; 
-				 //}
-				
-				
+				}
 			}
 			
 			foreach($data['actext'] as $exts =>$secs){
