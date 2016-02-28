@@ -358,6 +358,12 @@ li{
 	/*text-align:center;*/
 	font-family: 'Play', sans-serif;
 }
+.textfield_table{
+	width:60%;
+}
+.textfield_table td {
+	border:0px;
+}
 .textfield_FB_TA{
 	width:60%;
 	height:300px;
@@ -369,6 +375,12 @@ li{
 	/*text-align:center;*/
 	font-family: 'Play', sans-serif;
 }
+
+.font25px{
+	font-size:25px;
+	margin-left:-10px;
+	display: none;
+	}
 
 .loginform{
 	width:300px;

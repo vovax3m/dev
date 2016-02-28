@@ -1,3 +1,48 @@
+//<!----FWD 
+	function clear_fwd(){
+		$(':input')
+		.not(':button, :submit,:reset,:hidden')
+		.val('')
+		.removeAttr('checked')
+		.removeAttr('selected');
+		$('#exten').val($('#dvoext').html());
+		
+	}
+	function showdvo(ext){
+		//clearform
+		clear_fwd();
+		
+		//fill form
+		if($('#cu'+ext).val() !=undefined  ){
+		//custom numbers
+			//console.log($('#cu'+ext).val());
+			
+			$('#extsettings').hide();
+			$('#customsettings').show();
+			$('#customext').html(ext);
+			$('#customexten').val(ext);
+			$('#dial').val($('#cu'+ext).val());
+		}else{
+		//regular numbers
+			
+			$('#customsettings').hide();
+			$('#extsettings').show();
+			$('#dvoext').html(ext);
+			$('#exten').val(ext);
+			$('#cf').val($('#cf'+ext).val());
+			$('#cfb').val($('#cfb'+ext).val());
+			$('#cfu').val($('#cfu'+ext).val());
+			if($('#cw'+ext).val() == 'ENABLED'){
+				$('#cw').prop('checked', true); 
+			}
+			if($('#dnd'+ext).val()=='YES'){
+				$('#dnd').prop('checked', true); 
+			}
+		}
+
+	}
+// FWD	----> 
+
 function sufl(b,a){
 		var type=$('#spy_type').val(); 
 		

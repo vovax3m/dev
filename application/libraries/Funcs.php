@@ -226,8 +226,6 @@ class Funcs {
 		// если отправка не удалась
 		if(!$CI->email->send()){
 			$res= false;
-			
-			
 		}else{
 			$res= true;
 		};
@@ -249,6 +247,54 @@ class Funcs {
 		}
 		return $res; // возвращаем результат отправки
 			
+	}
+	function GetFwd($ext=false){
+		$CI =& get_instance();
+		$vats = $CI->config->item('vats');
+		$f=file_get_contents('https://'.$vats.'/cabinet/fwd.php?mode=get&ext='.$ext);
+		return $f;
+	}
+	
+	function SetFwd($set=false){
+		if($set['exten']){
+			$set['mode']='put';
+			$CI =& get_instance();
+			$vats = $CI->config->item('vats');
+			$ch = curl_init();
+			$url='https://'.$vats.'/cabinet/fwd.php';
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('application/x-www-form-urlencoded'));
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $set);
+			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+			$r= curl_exec($ch);	
+			return $r;
+		}else{
+			return 'error';
+		}
+	}
+	function SetCustom($set){
+		$set['mode']='custom';
+			$CI =& get_instance();
+			$vats = $CI->config->item('vats');
+			$ch = curl_init();
+			$url='https://'.$vats.'/cabinet/fwd.php';
+			curl_setopt($ch, CURLOPT_HTTPHEADER, array('application/x-www-form-urlencoded'));
+			curl_setopt($ch, CURLOPT_URL, $url);
+			curl_setopt($ch, CURLOPT_POST, 1);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+			curl_setopt($ch, CURLOPT_POSTFIELDS, $set);
+			curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+			$r= curl_exec($ch);	
+			//clean cache
+			$m = new Memcached(); 
+			$m->addServer('localhost', 11211);
+			$m->delete($vats.'ext');
+			//$m->set($vats.'ext', '', time() - 300);
+			return $r;
 	}
 //end of class		
 }

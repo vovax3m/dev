@@ -8,6 +8,7 @@
 		<a href="/monitor"  class="menuitem">Мониторинг</a><hr>
 		<a href="/book"  class="menuitem">Контакты</a><hr> 
 		<a href="/purchase"  class="menuitem">Функционал</a><hr>
+		<a href="/fwd"  class="menuitem">Переадресации</a><hr>
 		
 	<!--  потом админские-->
 	<?php if($isadmin){?>

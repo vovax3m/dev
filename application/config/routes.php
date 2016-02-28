@@ -54,6 +54,7 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['history'] = 'history';
 $route['stat'] = 'stat';
+$route['fwd'] = 'fwd';
 //$route['statistic/(:num)'] = 'statistic/index/$1';
 $route['welcome'] = 'welcome';
 $route['ajax'] = 'ajax';
