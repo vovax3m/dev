@@ -126,7 +126,7 @@
 			url: '/monitor/getconv/?act=get',
 			success: function(data) {
 				$('#conv_content').html(data);
-				console.log(data);
+				//console.log(data);
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
 				alert(thrownError); 

@@ -48,10 +48,10 @@ function sufl(b,a){
 		
 		$.ajax({
 			type:"GET",
-			url: '/monitor/spy/?a='+a+'&b='+b+'&type'+type,
+			url: '/monitor/spy/?a='+a+'&b='+b+'&type='+type,
 			success: function(data) {
 				//$('#conv_content').html(data);
-				console.log('spy '+data);
+				//console.log('spy '+data);
 				
 			},
 			error: function (xhr, ajaxOptions, thrownError) {
