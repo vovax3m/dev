@@ -58,10 +58,23 @@ class Monitor extends CI_Controller {
 			$exten=$this->input->cookie('auth_exten', TRUE);
 			$conv=$this->funcs->GetConv();
 			$conv=json_decode($conv,true);
+			
+			# get rotator numbers
+			$m = new Memcached(); 
+			$m->addServer('localhost', 11211);
+			if(!$m->get('rotator')){
+				$rotator=file_get_contents('http://deploy.sip64.ru/service/rotator');
+				$m->set('rotator', $rotator, time() + 3600);
+			} else {
+				$rotator=$m->get('rotator');
+			}
+			$rotator=json_decode($rotator);
+			
 			foreach($conv as $c){
 				if(!$c['state']) continue;
 				if($c['state']=='Down (0)') continue;
 				if($c['state']=='Ringing (5)') continue;
+				if(in_array($c['cid'],$rotator)) continue;
 				if($c['clid']=='(N/A)') $c['clid']='s';
 				$ch=explode("-",$c['channel'])[0];
 				$ch=str_replace("SIP/",'',$ch);
