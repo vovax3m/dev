@@ -10,10 +10,12 @@ function book_edit(id){
 	var name=$('#na'+id).text();
 	var nomer=$('#no'+id).text();
 	var type=$('#ty'+id).text();
+	var ext=$('#ext'+id).text();
 	
 	$('#na'+id).html('<input type="text" value="'+name.trim()+'" class="textfield3">');
 	$('#no'+id).html('<input type="text" value="'+nomer.trim()+'" class="textfield3">');
 	$('#ty'+id).html('<input type="text" value="'+type.trim()+'" class="textfield3">');
+	$('#ext'+id).html('<input type="text" value="'+ext.trim()+'" class="textfield3">');
 	$('#save'+id).show();
 	$('#edit'+id).hide();
 	//console.log(name +'='+nomer+'='+type);
@@ -23,6 +25,7 @@ function book_save(id){
 	var n_na=$('#na'+id ).children().val();
 	var n_no=$('#no'+id ).children().val();
 	var n_ty=$('#ty'+id ).children().val();
+	var n_ext=$('#ext'+id ).children().val();
 	
 	$.ajax({
 			url: '/book/set/',
@@ -31,12 +34,14 @@ function book_save(id){
 				'id' : id,
 				'na' : n_na,
 				'no' : n_no,
-				'ty' : n_ty
+				'ty' : n_ty,
+				'ext' : n_ext
 				},
 			success: function(data) {
 				$('#na'+id).html(n_na);
 				$('#no'+id).html(n_no);
 				$('#ty'+id).html(n_ty);
+				$('#ext'+id).html(n_ext);
 				$('#save'+id).hide();
 				$('#edit'+id).show();
 				console.log('success');;
@@ -77,6 +82,7 @@ function book_add(ph){
 		var new_na=$('#new_na' ).val();
 		var new_no=$('#new_no').val();
 		var new_ty=$('#new_ty' ).val();
+		var new_ext=$('#new_ext' ).val();
 	}
 	//alert(new_na+' '+new_no+new_ty);
 	if(!new_na){
@@ -94,7 +100,8 @@ function book_add(ph){
 				
 				'na' : new_na,
 				'no' : new_no,
-				'ty' : new_ty
+				'ty' : new_ty,
+				'ext' : new_ext
 				},
 				success: function(data) {
 					if(!isNaN(data)){
@@ -102,10 +109,11 @@ function book_add(ph){
 						$('#temp').html('номер добавлен в базу');
 						$('#temp').show('fast');
 						console.log('добавлено'+id);
-						$('#booklist').prepend('<tr class="new" id="row'+id+'"><td id="no'+id+'">'+new_no+'</td><td id="na'+id+'">'+new_na+'</td><td id="ty'+id+'">'+new_ty+'</td><td> <span id="save'+id+'" style="display:none" onclick="book_save(\''+id+'\');"><i class="fa fa-save hand"></i></span>&nbsp;&nbsp;<i class="fa fa-edit hand" onclick="book_edit(\''+id+'\');"></i>&nbsp;&nbsp;<i class="fa fa-trash hand" onclick="book_del(\''+id+'\');"></i></td>	</tr>');
+						$('#booklist').prepend('<tr class="new" id="row'+id+'"><td id="no'+id+'">'+new_no+'</td><td id="na'+id+'">'+new_na+'</td><td id="ty'+id+'">'+new_ty+'</td><td id="ext'+id+'">'+new_ext+'</td><td> <span id="save'+id+'" style="display:none" onclick="book_save(\''+id+'\');"><i class="fa fa-save hand"></i></span>&nbsp;&nbsp;<i class="fa fa-edit hand" onclick="book_edit(\''+id+'\');"></i>&nbsp;&nbsp;<i class="fa fa-trash hand" onclick="book_del(\''+id+'\');"></i></td>	</tr>');
 						$('#new_na' ).val('');
 						$('#new_no').val('');
 						$('#new_ty' ).val('');
+						$('#new_ext' ).val('');
 						return true;
 					}
 					if(data=='exist'){
@@ -124,7 +132,7 @@ function book_add(ph){
 			},
 		});
 }
-function book_del(id){
+function book_del(id,no){
 	var conf=confirm('Подтвердите удаление');
 	if(conf==true){
 	
@@ -132,9 +140,11 @@ function book_del(id){
 			url: '/book/del/',
 			type:"POST",
 			data:{
-				'id' : id
+				'id' : id,
+				'no' : no
 				},
 				success: function(data) {
+					console.log( data );
 					console.log('#row'+id);
 					$('#row'+id).hide();
 				},

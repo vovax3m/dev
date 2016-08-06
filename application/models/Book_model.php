@@ -43,17 +43,19 @@ class Book_model extends CI_Model {
 			print_r($query->result_array());
 			return $query->result_array(); 
 	}
-	public function set($id,$nomer,$name,$type) {
+	public function set($id, $nomer, $name, $type, $ext ) {
 		$data['nomer'] = $nomer;
 		$data['name'] = $name;
 		$data['type'] = $type;
+		$data['ext'] = $ext;
 		$this->db->where('id', $id);
 		return $this->db->update('book', $data);
 	}
-	public function add($nomer,$name,$type) {
+	public function add( $nomer, $name, $type, $ext ) {
 		$data['nomer'] = $nomer;
 		$data['name'] = $name;
 		$data['type'] = $type;
+		$data['ext'] = $ext;
 		return $this->db->insert('book', $data);
 	}
 	public function del($id) {

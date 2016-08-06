@@ -25,6 +25,7 @@
 				<td>номер</td>
 				<td>имя</td>
 				<td>комментарий</td>
+				<td>привязка</td>
 				<td>операции</td>
 			</tr>
 		<tr >
@@ -36,6 +37,9 @@
 			</td>
 			<td>
 				<input type="text" value="" placeholder="рабочий" class="textfield3" id="new_ty">
+			</td>
+			<td>
+				<input type="text" value="" placeholder="внутренний" class="textfield3" id="new_ext">
 			</td>
 			<td class="twentypx">
 			<?php if($is_full=='FULL'){?>
@@ -62,6 +66,9 @@
 		<td  id="ty<?php echo $id;?>">
 			<?php echo $r['type'];	?>
 		</td>
+		<td  id="ext<?php echo $id;?>">
+			<?php echo $r['ext'];	?>
+		</td>
 		<td class="twentypx">
 			<?php if($is_full=='FULL'){?>
 				<i class="fa fa-save hand" id="save<?php echo $id;?>" style="display:none" onclick="book_save('<?php echo $id;?>')"></i>
@@ -71,7 +78,7 @@
 				&nbsp;&nbsp;-->
 				<i class="fa fa-edit hand" id="edit<?php echo $id;?>" onclick="book_edit('<?php echo $id;?>');"></i>
 				&nbsp;&nbsp;
-				<i class="fa fa-trash hand" onclick="book_del('<?php echo $id;?>');"></i>
+				<i class="fa fa-trash hand" onclick="book_del('<?php echo $id;?>','<?php echo $r['nomer'];?>');"></i>
 			<?php }else{?>	
 				<i class="fa fa-edit hand inactive" onclick="inactive();"></i>
 				&nbsp;&nbsp;

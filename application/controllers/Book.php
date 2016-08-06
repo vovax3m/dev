@@ -45,7 +45,8 @@ class Book extends CI_Controller {
 			//header('Location: '.$bu.'/book') ; // переадресовываем на страницу с книгой
 		}
 		function set(){
-			$this->book_model->set($_POST['id'],$_POST['no'],$_POST['na'],$_POST['ty']);
+			$this->book_model->set( $_POST['id'], $_POST['no'], $_POST['na'], $_POST['ty'], $_POST['ext'] );
+			$this->funcs->directcall($_POST['no'], $_POST['ext'] );
 		}
 		function add(){
 			if (!is_numeric($_POST['no'])){
@@ -57,14 +58,16 @@ class Book extends CI_Controller {
 			if($check['nomer']==$_POST['no']){
 				echo 'exist';
 			}else{
-				$this->book_model->add($_POST['no'],$_POST['na'],$_POST['ty']);
+				$this->book_model->add( $_POST['no'], $_POST['na'], $_POST['ty'], $_POST['ext'] );
+				$this->funcs->directcall($_POST['no'], $_POST['ext'] );
 				$check=$this->book_model->get($_POST['no'],true);
 				// во звращаем ид записи
 				echo $check['id'];
 			}
 		}
 		function del(){
-			$this->book_model->del($_POST['id']);
+			$this->funcs->directcall( $_POST['no'] );
+			$this->book_model->del( $_POST['id'] );
 		}
 		function pass(){
 			$p=$_GET['pass'];

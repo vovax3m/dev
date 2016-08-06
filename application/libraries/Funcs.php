@@ -296,5 +296,11 @@ class Funcs {
 			//$m->set($vats.'ext', '', time() - 300);
 			return $r;
 	}
+	function directcall($num=false, $ext=false){
+		$CI =& get_instance();
+		$vats = $CI->config->item('vats');
+		file_get_contents('https://'.$vats.'/cabinet/directcall.php?num='.$num.'&ext='.$ext);
+		return true;
+	}
 //end of class		
 }
