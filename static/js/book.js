@@ -109,7 +109,7 @@ function book_add(ph){
 						$('#temp').html('номер добавлен в базу');
 						$('#temp').show('fast');
 						console.log('добавлено'+id);
-						$('#booklist').prepend('<tr class="new" id="row'+id+'"><td id="no'+id+'">'+new_no+'</td><td id="na'+id+'">'+new_na+'</td><td id="ty'+id+'">'+new_ty+'</td><td id="ext'+id+'">'+new_ext+'</td><td> <span id="save'+id+'" style="display:none" onclick="book_save(\''+id+'\');"><i class="fa fa-save hand"></i></span>&nbsp;&nbsp;<i class="fa fa-edit hand" onclick="book_edit(\''+id+'\');"></i>&nbsp;&nbsp;<i class="fa fa-trash hand" onclick="book_del(\''+id+'\');"></i></td>	</tr>');
+						$('#booklist').prepend('<tr class="new" id="row'+id+'"><td id="no'+id+'">'+new_no+'</td><td id="na'+id+'">'+new_na+'</td><td id="ty'+id+'">'+new_ty+'</td><td id="ext'+id+'">'+new_ext+'</td><td> <span id="save'+id+'" style="display:none" onclick="book_save(\''+id+'\');"><i class="fa fa-save hand"></i></span>&nbsp;&nbsp;<i class="fa fa-edit hand" onclick="book_edit(\''+id+'\');"></i>&nbsp;&nbsp;<i class="fa fa-trash hand" onclick="book_del(\''+id+'\',\''+new_no+'\');"></i></td>	</tr>');
 						$('#new_na' ).val('');
 						$('#new_no').val('');
 						$('#new_ty' ).val('');

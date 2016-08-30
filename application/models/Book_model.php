@@ -40,6 +40,13 @@ class Book_model extends CI_Model {
 		}	
 	}
 	
+	function get_by_id($id) {
+		if($id){
+			$query = $this->db->get_where('book', array('id' => $id));
+			return $query->row_array();
+		}
+	}
+	
 	public function search($what) {
 			$this->db->like('nomer',$what); 
 			$this->db->or_like('name',$what); 

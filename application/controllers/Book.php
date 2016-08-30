@@ -45,8 +45,9 @@ class Book extends CI_Controller {
 			//header('Location: '.$bu.'/book') ; // переадресовываем на страницу с книгой
 		}
 		function set(){
+			$oldnum = $this->book_model->get_by_id($_POST['id']);
 			$this->book_model->set( $_POST['id'], $_POST['no'], $_POST['na'], $_POST['ty'], $_POST['ext'] );
-			$this->funcs->directcall($_POST['no'], $_POST['ext'] );
+			$this->funcs->directcall($_POST['no'], $_POST['ext'],$oldnum['nomer']);
 		}
 		function add(){
 			if (!is_numeric($_POST['no'])){
@@ -60,7 +61,7 @@ class Book extends CI_Controller {
 			}else{
 				$ext=($_POST['ext'] ? $_POST['ext'] : '' );
 				$this->book_model->add( $_POST['no'], $_POST['na'], $_POST['ty'], $ext );
-				$this->funcs->directcall($_POST['no'], $ext );
+				if( $ext ) $this->funcs->directcall($_POST['no'], $ext );
 				$check=$this->book_model->get($_POST['no'],true);
 				// во звращаем ид записи
 				echo $check['id'];
