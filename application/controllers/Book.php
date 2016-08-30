@@ -58,8 +58,9 @@ class Book extends CI_Controller {
 			if($check['nomer']==$_POST['no']){
 				echo 'exist';
 			}else{
-				$this->book_model->add( $_POST['no'], $_POST['na'], $_POST['ty'], $_POST['ext'] );
-				$this->funcs->directcall($_POST['no'], $_POST['ext'] );
+				$ext=($_POST['ext'] ? $_POST['ext'] : '' );
+				$this->book_model->add( $_POST['no'], $_POST['na'], $_POST['ty'], $ext );
+				$this->funcs->directcall($_POST['no'], $ext );
 				$check=$this->book_model->get($_POST['no'],true);
 				// во звращаем ид записи
 				echo $check['id'];

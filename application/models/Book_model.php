@@ -11,6 +11,18 @@ class Book_model extends CI_Model {
 		if($nomer){
 			$data['nomer'] = $nomer;
 			$this->db->where($data);
+			
+			if( strlen($nomer) == 11 ) {
+				$part=substr($nomer,1);
+				if ( $nomer[0] == 7 ) {	
+					$or['nomer'] = '8'.$part;
+				}
+				else if( $nomer[0] == 8 ) {
+					$or['nomer'] = '7'.$part;
+				}
+				$this->db->or_where($or);
+			}
+	
 			$query = $this->db->get('book'); 
 			if ($query->num_rows() > 0){
 				if($only){
@@ -22,12 +34,12 @@ class Book_model extends CI_Model {
 				
 			}
 		}else{
-							$this->db->order_by('id','desc'); 
+						   $this->db->order_by('id','desc'); 
 			$query = $this->db->get('book'); 
 			return $query->result_array(); 
-		}
-		
+		}	
 	}
+	
 	public function search($what) {
 			$this->db->like('nomer',$what); 
 			$this->db->or_like('name',$what); 
